@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  goleveldbadmin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9091:9091"
+    volumes:
+      - ./config.yaml:/goleveldbadmin/config.yaml

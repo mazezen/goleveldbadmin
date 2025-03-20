@@ -1,0 +1,11 @@
+#Source:
+#  ServiceName:  # 服务名称 abc
+#  Dir:          # leveldb 数据源目录
+
+#Ti:
+#  Acc:   # 登录账号
+#  Pwd:   # 登录密码
+#
+#Jwt:
+#  ExpireTime:  # 过期时间
+#  SECRET: # jwt秘钥
