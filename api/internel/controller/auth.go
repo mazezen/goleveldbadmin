@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/mazezen/goleveldbadmin/framework"
 	"github.com/mazezen/goleveldbadmin/service"
+	"io"
 	"net/http"
 )
 
@@ -31,17 +32,26 @@ func (p *AuthHandler) login(w http.ResponseWriter, r *http.Request) {
 		Message: "登录成功",
 	}
 	var payload loginPayload
-	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
-		result.Code = 5000
-		result.Message = err.Error()
-		framework.JsonOk(w, result)
-		return
+	err := json.NewDecoder(r.Body).Decode(&payload)
+	if err != nil {
+		if err == io.EOF {
+			result.Code = 5000
+			result.Message = err.Error()
+			framework.JsonOk(w, result)
+			return
+		} else {
+			result.Code = 5000
+			result.Message = err.Error()
+			framework.JsonOk(w, result)
+			return
+		}
 	}
 
 	token, err := authService.Login(payload.Account, payload.Password)
 	if err != nil {
 		result.Code = 5000
 		result.Message = err.Error()
+		framework.JsonOk(w, result)
 		return
 	}
 	result.Data = token

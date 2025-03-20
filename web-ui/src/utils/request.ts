@@ -2,7 +2,7 @@ import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
 
 
 // 路径
-axios.defaults.baseURL = `http://localhost:9091/lb`;
+axios.defaults.baseURL = `http://localhost:9091/lb/`;
 
 // 请求拦截器
 axios.interceptors.request.use((config: AxiosRequestConfig | any) => {

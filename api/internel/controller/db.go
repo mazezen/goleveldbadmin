@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/mazezen/goleveldbadmin/framework"
 	"github.com/mazezen/goleveldbadmin/service"
+	"io"
 	"net/http"
 )
 
@@ -60,11 +61,19 @@ func (d *DbController) add(w http.ResponseWriter, r *http.Request) {
 		Message: "成功",
 	}
 	var payload addPayload
-	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
-		result.Code = 5000
-		result.Message = err.Error()
-		framework.JsonOk(w, result)
-		return
+	err := json.NewDecoder(r.Body).Decode(&payload)
+	if err != nil {
+		if err == io.EOF {
+			result.Code = 5000
+			result.Message = err.Error()
+			framework.JsonOk(w, result)
+			return
+		} else {
+			result.Code = 5000
+			result.Message = err.Error()
+			framework.JsonOk(w, result)
+			return
+		}
 	}
 	if err := dbService.Add(payload.Key, payload.Value); err != nil {
 		result.Code = 5000
@@ -83,11 +92,19 @@ func (d *DbController) info(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var payload addPayload
-	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
-		result.Code = 5000
-		result.Message = err.Error()
-		framework.JsonOk(w, result)
-		return
+	err := json.NewDecoder(r.Body).Decode(&payload)
+	if err != nil {
+		if err == io.EOF {
+			result.Code = 5000
+			result.Message = err.Error()
+			framework.JsonOk(w, result)
+			return
+		} else {
+			result.Code = 5000
+			result.Message = err.Error()
+			framework.JsonOk(w, result)
+			return
+		}
 	}
 
 	res, err := dbService.Info(payload.Key)
@@ -109,14 +126,22 @@ func (d *DbController) delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var payload addPayload
-	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
-		result.Code = 5000
-		result.Message = err.Error()
-		framework.JsonOk(w, result)
-		return
+	err := json.NewDecoder(r.Body).Decode(&payload)
+	if err != nil {
+		if err == io.EOF {
+			result.Code = 5000
+			result.Message = err.Error()
+			framework.JsonOk(w, result)
+			return
+		} else {
+			result.Code = 5000
+			result.Message = err.Error()
+			framework.JsonOk(w, result)
+			return
+		}
 	}
 
-	err := dbService.Delete(payload.Key)
+	err = dbService.Delete(payload.Key)
 	if err != nil {
 		result.Code = 5000
 		result.Message = err.Error()

@@ -43,7 +43,7 @@
 <script lang="ts" setup>
 import router from "../../router/router";
 import { ref, reactive } from "vue";
-import { type FormInstance, type FormRules, ElMessage } from "element-plus";
+import { type FormInstance, type FormRules } from "element-plus";
 import type { IRuleForm } from "../../utils/types";
 import { login } from "../../api/api";
 
@@ -79,9 +79,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
           ElMessage.error(res.data.message);
         }
         if (res.data.code === 2000) {
+          console.log("123");
           ElMessage.success(res.data.message);
           localStorage.setItem("token", res.data.data);
           router.push("/home");
+          console.log("456");
         }
       } catch (error) {
         console.error("登录失败:", error);

@@ -106,12 +106,28 @@
 import router from "../../router/router";
 import { list, addDataApi, deleteDataApi, clearApi } from "../../api/api";
 import { reactive, ref } from "vue";
-import { type FormInstance, type FormRules, ElMessage } from "element-plus";
+import { type FormInstance, type FormRules } from "element-plus";
 import type { IRuleAddDataForm, IRuleList } from "../../utils/types";
 import { Search } from "@element-plus/icons-vue";
 
 const tableData = ref([]);
 const total = ref(0);
+
+const dialogFormVisible = ref(false);
+const ruleAddDataFormRef = ref<FormInstance>();
+const ruleAddDataForm = reactive<IRuleAddDataForm>({
+  key: "",
+  value: "",
+});
+
+// 列表
+const ListParam = reactive<IRuleList>({
+  page: 1,
+  pageSize: 10,
+  key: "",
+});
+
+const inputSearch = ref("");
 
 // 分页
 const handleCurrentChange = async (page: number) => {
@@ -134,13 +150,6 @@ const handleCurrentChange = async (page: number) => {
   }
 };
 
-// 列表
-const ListParam = reactive<IRuleList>({
-  page: 1,
-  pageSize: 10,
-  key: "",
-});
-
 const getList = async () => {
   try {
     const res = await list(ListParam);
@@ -158,7 +167,6 @@ const getList = async () => {
 getList();
 
 // 搜索
-const inputSearch = ref("");
 const searchAction = async () => {
   console.log(inputSearch.value);
   ListParam.key = inputSearch.value;
@@ -196,12 +204,6 @@ const clear = async () => {
 };
 
 // 添加
-const dialogFormVisible = ref(false);
-const ruleAddDataFormRef = ref<FormInstance>();
-const ruleAddDataForm = reactive<IRuleAddDataForm>({
-  key: "",
-  value: "",
-});
 const rulesAddForm = reactive<FormRules<IRuleAddDataForm>>({
   key: [
     { required: true, message: "请输入key", trigger: "blur" },
@@ -223,10 +225,12 @@ const addData = async (formEl: FormInstance | undefined) => {
       console.log(res);
       if (res.data.code === 2000) {
         ElMessage.success(res.data.message);
+        dialogFormVisible.value = false;
         getList();
       }
       if (res.data.code === 5000) {
         ElMessage.error(res.data.message);
+        dialogFormVisible.value = false;
         getList();
       }
     }

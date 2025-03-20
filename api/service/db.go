@@ -84,7 +84,8 @@ func (d *DbService) Add(key string, value interface{}) error {
 		return errors.New("empty key")
 	}
 	res, _ := json.Marshal(value)
-	if err := sdk.Db.Put([]byte(key), res, nil); err != nil {
+	err := sdk.Db.Put([]byte(key), res, nil)
+	if err != nil {
 		return err
 	}
 	return nil
