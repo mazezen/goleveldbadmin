@@ -3,6 +3,7 @@
 #### <p align="center"><a href="https://github.com/mazezen/command-fanyi/releases"><img src="https://img.shields.io/github/release/command-fanyi/releases.svg" alt="GitHub release"></a><a href="https://github.com/mazezen/command-fanyi/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="license"></a><p>
 
 <a href="https://github.com/mazezen/goleveldbadmin" targer="_blank">goleveldbadmin</a>是一款使用golang和vue3+Element-Plus和TypeScript开发的Leveldb的可视化管理平台，它包含了在线的数据库管理和简洁的操作界面，旨在方便用户管理leveldb数据。
+支持私有化部署
 * <a href="https://goleveldbadmin.mazezen.com/" target="_blank">在线预览</a> 账号: admin 密码: 123456
 
 ### 示例页面
